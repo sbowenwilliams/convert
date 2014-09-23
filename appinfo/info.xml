@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+    <id>convert</id>
+    <name>Convert</name>
+    <description>Converter?</description>
+    <licence>agpl</licence>
+    <author>Sean Bowen-Williams</author>
+    <version>0.5</version>
+    <requiremin>7</requiremin>
+</info>
