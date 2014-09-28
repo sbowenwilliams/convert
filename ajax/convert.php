@@ -25,7 +25,4 @@ $ffmpegCommand = 'ffmpeg -y -i ' .$fullInPath. ' -strict -2 '.$fullOutPath.' </d
 
 $ffmpegOutput = shell_exec($ffmpegCommand);
 
-echo $progressFilePath;
-
-
 ?>
