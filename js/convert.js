@@ -1,6 +1,10 @@
 $(document).ready(function() {
     var droppedDown = false;
-    var fileType = false;
+    var fileType = true;
+	var converting = false;
+	
+	var fileTypes = ["wmv", "m4v", "mp4", "mp3"];
+
 		
     if(typeof FileActions !== 'undefined') {
         var infoIconPath = OC.imagePath('convert','convert.svg');
@@ -16,6 +20,7 @@ $(document).ready(function() {
             var filePath = directory + fileName; 
             var message = t('convert', "Select file type:");
 
+            //Build dropdown menu
             var html = '<div id="dropdown" class="drop">\n\
                             <p id="message">' + message + '</p>\n\
                             <div id="submit">\n\
@@ -43,17 +48,12 @@ $(document).ready(function() {
                 var type = $('#fileType').val();
 				var outPath = filePath.substr(0, filePath.lastIndexOf(".")) + "." + type;
 
-                if(type === '') {
-                    $("#fileType").css("background-color", "red");
-                    fileType = false;
-                } else {
-                    $("#fileType").css("background-color", "white");
                     fileType = true;
                     
                     if(eventData.keyCode == 13) {
                         doConvert(filePath, outPath);
                     }                    
-                }
+                
             });
         });
         
@@ -64,20 +64,24 @@ $(document).ready(function() {
         var target = $(event.target);
         var clickOut = !(target.is('#fileType') || target.is('#execute'));
 
-        if(droppedDown && clickOut) {
+        if(droppedDown && clickOut && !converting) {
             hideDropDown();
         }
     });
 	
-	function getProgress() {
-		$.get(OC.linkTo('convert', 'ajax/getprogress.php'), function( result ) {
-			if (result >= 100) {
+	function getProgress(filePath) {
+		$.get(OC.linkTo('convert', 'ajax/getprogress.php'), {filePath : filePath}, function( result ) {
+			if (result == -1) {
+				alert("Unable to read log file. No progress information available.");
+				document.location.reload();
+			}
+			else if (result >= 100) {
 				alert("Conversion complete.");
 				document.location.reload();
 			}
 			else {
 				updateProgress(result);
-				setTimeout(getProgress(), 2000);
+				setTimeout(getProgress(), 1000);
 			}
 		});
 	}
@@ -85,10 +89,12 @@ $(document).ready(function() {
 	
 	function updateProgress(result) {
 		var progress = result;
-		$('#submit').html('<div style="margin-top: 5px;"><img src="' + OC.imagePath('convert','russell.gif') + '"/><div id = "progressBar" style="margin-left:5px;">' + "Percent Complete: " + progress + '</div></div>'); 
+		progress += "%";
+		$('#submit').html('<div style="margin-top: 5px;"><img src="' + OC.imagePath('convert','russell.gif') + '"/><div id = "progressBar" style="margin-left:5px;">' + progress + '</div></div>'); 
 	}
 	
     function doConvert(filePath, outPath) {
+		converting = true;
 		
 		$.ajax({
             type    : 'POST',

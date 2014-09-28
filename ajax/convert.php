@@ -15,19 +15,15 @@ $fullOutPath = \OC\Files\Filesystem::getLocalFile($outPath);
 
 $shortPath = substr($fullInPath, strpos($fullInPath, 'data'));
 
-$progressFilePath = substr($shortPath, 0, strpos($shortPath, 'files')) . 'files/convertlog.txt';
+//$progressFilePath = substr($shortPath, 0, strpos($shortPath, 'files')) . 'files/convertlog.txt';
 
-//$progressFilePath = '/var/www/html/convert/progress.txt';
+$progressFilePath = substr($fullInPath, 0, strpos($fullInPath, 'files')) . 'files/convertlog.txt';
 
 unlink($progressFilePath);
 
 $ffmpegCommand = 'ffmpeg -y -i ' .$fullInPath. ' -strict -2 '.$fullOutPath.' </dev/null 1> ' .$progressFilePath.'  2>&1 &';
 
 $ffmpegOutput = shell_exec($ffmpegCommand);
-
-/*
-$outputMessage = $outputMessage . shell_exec('[ -f ' .$fullOutPath. ' ] && echo "All done!" || echo "Conversion failed."');
-*/
 
 echo $progressFilePath;
 
