@@ -1,8 +1,13 @@
 <?php
 
-$progLocation = filter_input(INPUT_POST, 'progLocation', FILTER_SANITIZE_STRING);
+$filePath = filter_input(INPUT_POST, 'filePath', FILTER_SANITIZE_STRING);
 
-$content = @file_get_contents('/var/www/html/owncloud/data/sadmin/files/convertlog.txt');
+$fullInPath = \OC\Files\Filesystem::getLocalFile($filePath);
+
+$progressFilePath = substr($fullInPath, 0, strpos($fullInPath, 'files')) . 'files/convertlog.txt';
+
+
+$content = @file_get_contents($progressFilePath);
 
 if($content){
     //get duration of source
@@ -31,13 +36,15 @@ if($content){
     if (!empty($ar[2])) $time += intval($ar[2]) * 60 * 60;
 
     //calculate the progress
-    $progress = round(($time/$duration) * 100);
-
+    $progress = ceil(($time/$duration) * 100);
 //    echo "Duration: " . $duration . "<br>";
 //    echo "Current Time: " . $time . "<br>";
 	
     echo $progress;
 
+}
+else {
+echo -1;
 }
 
 ?>
