@@ -3,15 +3,13 @@ $(document).ready(function() {
     var fileType = true;
 	var converting = false;
 	
-	var fileTypes = ["wmv", "m4v", "mp4", "mp3"];
+	var fileTypes = ["'wmv'", "'m4v'", "'mp4'", "'mp3'"];
 
 		
     if(typeof FileActions !== 'undefined') {
         var infoIconPath = OC.imagePath('convert','convert.svg');
 
-        FileActions.register('file', 'Convert', OC.PERMISSION_UPDATE, infoIconPath, function(fileName) {
-            var extension = fileName.substring(fileName.length - 5);
-			
+        FileActions.register('file', 'Convert', OC.PERMISSION_UPDATE, infoIconPath, function(fileName) {			
             if(scanFiles.scanning) { return; } 
 
             var directory = $('#dir').val();
@@ -20,14 +18,19 @@ $(document).ready(function() {
             var filePath = directory + fileName; 
             var message = t('convert', "Select file type:");
 
-            //Build dropdown menu
-            var html = '<div id="dropdown" class="drop">\n\
-                            <p id="message">' + message + '</p>\n\
-                            <div id="submit">\n\
-                                <input id="fileType" style="width:220px" type="text" />\n\
-                                <input id="execute" type="button" value="' + 'Convert' + '" />\n\
-                            </div>\n\
-                        </div>';
+			//Build dropdown
+			var html =  "<div id='dropdown' class='drop'>";
+			html += "<p id='message'>" + message + "</p>" +
+					"<div id='submit'>" +
+					"<select id='fileType'>";
+	    			for (var i = 0 ; i < fileTypes.length ; i++) {
+	    				html += "<option value=" + fileTypes[i] + ">" + fileTypes[i] + "</option>";
+	    		}
+	    	html += "</select>" +
+                    "<input id='execute' type='button'" +
+					"value='Convert'/>" +
+                    "</div>" +
+					"</div>";
 
             if(fileName) {
                 $('tr').filterAttr('data-file',fileName).addClass('mouseOver');
