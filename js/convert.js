@@ -84,7 +84,7 @@ $(document).ready(function() {
 			}
 			else {
 				updateProgress(result);
-				setTimeout(getProgress(), 1000);
+				setTimeout(getProgress(), 3000);
 			}
 		});
 	}

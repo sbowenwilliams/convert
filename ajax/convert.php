@@ -21,7 +21,7 @@ $progressFilePath = substr($fullInPath, 0, strpos($fullInPath, 'files')) . 'file
 
 unlink($progressFilePath);
 
-$ffmpegCommand = 'ffmpeg -y -i ' .$fullInPath. ' -strict -2 '.$fullOutPath.' </dev/null 1> ' .$progressFilePath.'  2>&1 &';
+$ffmpegCommand = 'ffmpeg -y -i ' .$fullInPath. ' -threads 1 -strict -2 '.$fullOutPath.' </dev/null 1> ' .$progressFilePath.'  2>&1 &';
 
 $ffmpegOutput = shell_exec($ffmpegCommand);
 
