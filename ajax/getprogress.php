@@ -7,7 +7,7 @@ $fullInPath = \OC\Files\Filesystem::getLocalFile($filePath);
 $progressFilePath = substr($fullInPath, 0, strpos($fullInPath, 'files')) . 'files/convertlog.txt';
 
 
-$content = @file_get_contents($progressFilePath);
+$content = \OC\Files\Filesystem::file_get_contents('/convertlog.txt');
 
 if($content){
     //get duration of source
