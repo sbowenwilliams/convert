@@ -3,7 +3,7 @@ $(document).ready(function() {
     var fileType = true;
 	var converting = false;
 	
-	var fileTypes = ["'wmv'", "'m4v'", "'mp4'", "'mp3'"];
+	var fileTypes = ["'wmv'", "'m4v'", "'mp4'", "'MOV'", "'avi'", "'mp3'"];
 
 		
     if(typeof FileActions !== 'undefined') {
