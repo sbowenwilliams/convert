@@ -17,6 +17,7 @@ $(document).ready(function() {
 
             var filePath = directory + fileName; 
             var message = t('convert', "Select file type:");
+			var ext = fileName.substr(fileName.lastIndexOf('.') + 1);
 
 			//Build dropdown
 			var html =  "<div id='dropdown' class='drop'>";
@@ -24,7 +25,9 @@ $(document).ready(function() {
 					"<div id='submit'>" +
 					"<select id='fileType'>";
 	    			for (var i = 0 ; i < fileTypes.length ; i++) {
-	    				html += "<option value=" + fileTypes[i] + ">" + fileTypes[i] + "</option>";
+						if(fileTypes[i] != "'" + ext +"'"){
+	    					html += "<option value=" + fileTypes[i] + ">" + fileTypes[i] + "</option>";
+						}
 	    		}
 	    	html += "</select>" +
                     "<input id='execute' type='button'" +
