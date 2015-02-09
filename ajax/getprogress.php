@@ -1,11 +1,7 @@
 <?php
 
-$filePath = filter_input(INPUT_POST, 'filePath', FILTER_SANITIZE_STRING);
-
-$fullInPath = \OC\Files\Filesystem::getLocalFile($filePath);
-
-$progressFilePath = substr($fullInPath, 0, strpos($fullInPath, 'files')) . 'files/convertlog.txt';
-
+$outPath = filter_input(INPUT_POST, 'outPath', FILTER_SANITIZE_STRING);
+$fullOutPath = \OC\Files\Filesystem::getLocalFile($outPath);
 
 $content = \OC\Files\Filesystem::file_get_contents('/convertlog.txt');
 
@@ -36,9 +32,16 @@ if($content){
     if (!empty($ar[2])) $time += intval($ar[2]) * 60 * 60;
 
     //calculate the progress
-    $progress = ceil(($time/$duration) * 100);
+    $progress = floor(($time/$duration) * 100);
 //    echo "Duration: " . $duration . "<br>";
 //    echo "Current Time: " . $time . "<br>";
+    
+    
+    if(preg_match("/muxing overhead/", $content, $matches)) {
+        $progress = 101;
+        $moveCommand = 'mv /var/www/html/convert'.$outPath.' '.$fullOutPath;
+        $moveOutput = shell_exec($moveCommand);
+    }
 	
     echo $progress;
 

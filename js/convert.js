@@ -75,29 +75,29 @@ $(document).ready(function() {
         }
     });
 	
-	function getProgress(filePath) {
-		$.get(OC.linkTo('convert', 'ajax/getprogress.php'), {filePath : filePath}, function( result ) {
+	function getProgress(outPath) {
+		$.post(OC.linkTo('convert', 'ajax/getprogress.php'), {outPath : outPath}, function(result) {
 			if (result == -1) {
 				alert("Unable to read log file. No progress information available.");
 				document.location.reload();
 			}
-			else if (result >= 100) {
+			else if (result > 100) {
 				alert("Conversion complete.");
 				document.location.reload();
 			}
 			else {
 				updateProgress(result);
-				setTimeout(getProgress(), 3000);
+				setTimeout(getProgress(outPath), 3000);
 			}
 		});
-	}
-	
+    }
 	
 	function updateProgress(result) {
 		var progress = result;
 		progress += "%";
+        $('#message').html('<p> Please don\'t leave this page');
 		$('#submit').html('<div style="margin-top: 5px;"><img src="' + OC.imagePath('convert','russell.gif') + '"/><div id = "progressBar" style="margin-left:5px;">' + progress + '</div></div>'); 
-	}
+	}   
 	
     function doConvert(filePath, outPath) {
 		converting = true;
@@ -113,7 +113,7 @@ $(document).ready(function() {
 			}
         }); 
 		
-		getProgress();
+		setTimeout(getProgress(outPath), 1000);
     }
     	
     function hideDropDown() {

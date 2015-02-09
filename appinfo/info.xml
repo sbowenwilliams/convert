@@ -2,7 +2,7 @@
 <info>
     <id>convert</id>
     <name>Convert</name>
-    <description>Converter?</description>
+    <description>Transcode Videos!</description>
     <licence>agpl</licence>
     <author>Sean Bowen-Williams</author>
     <version>0.5</version>

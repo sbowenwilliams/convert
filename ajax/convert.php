@@ -11,18 +11,13 @@ $user = \OCP\User::getUser();
 $outputMessage = '';
 
 $fullInPath = \OC\Files\Filesystem::getLocalFile($filePath);
-$fullOutPath = \OC\Files\Filesystem::getLocalFile($outPath);
-
-$shortPath = substr($fullInPath, strpos($fullInPath, 'data'));
-
-//$progressFilePath = substr($shortPath, 0, strpos($shortPath, 'files')) . 'files/convertlog.txt';
 
 $progressFilePath = substr($fullInPath, 0, strpos($fullInPath, 'files')) . 'files/convertlog.txt';
 
-unlink($progressFilePath);
-
-$ffmpegCommand = 'ffmpeg -y -i ' .$fullInPath. ' -threads 1 -strict -2 '.$fullOutPath.' </dev/null 1> ' .$progressFilePath.'  2>&1 &';
+$ffmpegCommand = 'ffmpeg -y -i ' .$fullInPath. ' -threads 1 -strict -2 /var/www/html/convert'.$outPath.' </dev/null 1> ' .$progressFilePath.'  2>&1 &';
 
 $ffmpegOutput = shell_exec($ffmpegCommand);
+
+echo($outPath);
 
 ?>
