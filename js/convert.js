@@ -71,7 +71,7 @@ $(document).ready(function() {
         var clickOut = !(target.is('#fileType') || target.is('#execute'));
 
         if(droppedDown && clickOut && !converting) {
-            hideDropDown();
+            //hideDropDown();
         }
     });
 	

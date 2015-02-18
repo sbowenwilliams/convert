@@ -39,7 +39,7 @@ if($content){
     
     if(preg_match("/muxing overhead/", $content, $matches)) {
         $progress = 101;
-        $moveCommand = 'mv /var/www/html/convert'.$outPath.' '.$fullOutPath;
+        $moveCommand = 'mv /home/ocdev/public_html/convert'.$outPath.' '.$fullOutPath;
         $moveOutput = shell_exec($moveCommand);
     }
 	
